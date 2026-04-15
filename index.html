@@ -47,8 +47,9 @@ h2{font-size:16px;font-weight:700;color:#222;margin-bottom:12px}
 .wm span{font-size:100px;font-weight:900;color:rgba(180,0,0,.04);transform:rotate(-22deg);white-space:nowrap;letter-spacing:8px;user-select:none}
 
 /* Two columns */
-.row{display:grid;grid-template-columns:1fr 1fr}
-.row-top{border-bottom:none}
+.row{display:grid;grid-template-columns:1fr 1fr;border:1px solid #000}
+.row-top{border-bottom:none;border-top:none}
+.row+.row{border-top:none}
 .cut-sep{
   position:relative;
   height:0;
@@ -209,7 +210,7 @@ h2{font-size:16px;font-weight:700;color:#222;margin-bottom:12px}
 .strip-l2 span{
   font-size:5.5px;font-weight:700;color:#000;
   white-space:nowrap;writing-mode:vertical-rl;
-  line-height:1.2;letter-spacing:.3px;
+  transform:rotate(180deg);line-height:1.2;letter-spacing:.3px;
 }
 .p4-inner{flex:1;display:flex;flex-direction:column;position:relative;padding-bottom:26px;min-height:54mm}
 
@@ -239,6 +240,7 @@ h2{font-size:16px;font-weight:700;color:#222;margin-bottom:12px}
   font-family:'Noto Sans',Arial,sans-serif;
   font-size:8.5px;font-weight:700;color:#000;
 }
+.card-footer .fi svg{width:10px;height:10px;flex-shrink:0;fill:#000}
 .card-footer .div{color:#bbb;font-size:11px;font-weight:400}
 
 /* ============================
@@ -291,7 +293,7 @@ h2{font-size:16px;font-weight:700;color:#222;margin-bottom:12px}
     </div>
     <div class="fields-col">
       <div class="fgrid">
-        <div class="fg"><label>Name (English)</label><input id="nEn" value="Ansh Goswami"/></div>
+        <div class="fg"><label>Name (English)</label><input id="nEn" value="Ansh Goswami" oninput="autoTranslitName(this.value)"/></div>
         <div class="fg"><label>&#2344;&#2366;&#2350; (Hindi)</label><input id="nHi" value="&#2309;&#2306;&#2358; &#2327;&#2379;&#2360;&#2381;&#2357;&#2366;&#2350;&#2368;"/></div>
         <div class="fg"><label>Date of Birth</label><input id="dob" value="2021"/></div>
         <div class="fg"><label>Gender</label><select id="gen"><option value="m">&#2346;&#2369;&#2352;&#2369;&#2359; / MALE</option><option value="f">&#2350;&#2361;&#2367;&#2354;&#2366; / FEMALE</option></select></div>
@@ -392,11 +394,11 @@ h2{font-size:16px;font-weight:700;color:#222;margin-bottom:12px}
 </div>
 <div class="p4-num"><div class="p4-bignum" id="p4-num"></div><div class="p4-vidsep"></div><div class="p4-vid">VID : <span id="p4-vid"></span></div></div>
 <div class="card-footer">
-<span class="fi"><b>&#9742; 1947</b></span>
+<span class="fi"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C9.6 21 3 14.4 3 7c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg><b>1947</b></span>
 <span class="div">|</span>
-<span class="fi"><b>&#9993; help@uidai.gov.in</b></span>
+<span class="fi"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg><b>help@uidai.gov.in</b></span>
 <span class="div">|</span>
-<span class="fi"><b>&#9898; www.uidai.gov.in</b></span>
+<span class="fi"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM11 19.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41C17.93 5.77 20 8.65 20 12c0 2.08-.8 3.97-2.1 5.39z"/></svg><b>www.uidai.gov.in</b></span>
 </div>
 </div></div></div>
 </div>
@@ -443,7 +445,27 @@ function fmtV(){
   var s=rnd(16);
   return s.slice(0,4)+' '+s.slice(4,8)+' '+s.slice(8,12)+' '+s.slice(12,16);
 }
-function gen(){
+var _ntTimer=null;
+function autoTranslitName(val){
+  clearTimeout(_ntTimer);
+  if(!val.trim()){document.getElementById('nHi').value='';return;}
+  _ntTimer=setTimeout(async function(){
+    var hi=await translit(val);
+    document.getElementById('nHi').value=hi;
+  },500);
+}
+
+async function translit(text){
+  if(!text||!text.trim()) return text;
+  try{
+    var r=await fetch('https://inputtools.google.com/request?text='+encodeURIComponent(text)+'&itc=hi-t-i0-und&num=1&cp=0&cs=1&ie=utf-8&oe=utf-8');
+    var d=await r.json();
+    if(d[0]==='SUCCESS'&&d[1]&&d[1][0]&&d[1][0][1]&&d[1][0][1][0]) return d[1][0][1][0];
+  }catch(e){}
+  return text;
+}
+
+async function gen(){
   var nEn   = document.getElementById('nEn').value||'Ansh Goswami';
   var nHi   = document.getElementById('nHi').value||'';
   var dob   = document.getElementById('dob').value||'2021';
@@ -499,13 +521,16 @@ function gen(){
   document.getElementById('p3-strip').textContent='Aadhaar no. issued: '+idate;
 
   /* P4 */
-  var hiAddr='\u0926\u094d\u0935\u093e\u0930\u093e : '+co+', '+vtc+', '+po+', '+dist+',<br/>'+st+' - '+pin;
+  var _t=await Promise.all([translit(co),translit(vtc),translit(po),translit(sd),translit(dist),translit(st)]);
+  var coHi=_t[0],vtcHi=_t[1],poHi=_t[2],sdHi=_t[3],distHi=_t[4],stHi=_t[5];
+  var hiAddr='\u0926\u094d\u0935\u093e\u0930\u093e : '+coHi+', '+vtcHi+', '+poHi+', '+distHi+',<br/>'+stHi+' \u2013 '+pin;
   var enAddr='C/O: '+co+', '+vtc+', PO: '+po+', DIST: '+dist+',<br/>'+st+' - '+pin;
   document.getElementById('p4-ahi').innerHTML=hiAddr;
   document.getElementById('p4-aen').innerHTML=enAddr;
   document.getElementById('p4-num').textContent=aNum;
   document.getElementById('p4-vid').textContent=vid;
   document.getElementById('p4-strip').textContent='Details as on: '+detdate;
+
 
   if(photoUrl){
     document.getElementById('p3-pimg').src=photoUrl;

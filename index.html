@@ -3,31 +3,31 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Aadhaar Card Generator</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Noto Sans',Arial,sans-serif;background:#aaa;padding:16px}
-.form-wrap{max-width:920px;margin:0 auto}
-h2{font-size:16px;font-weight:700;color:#222;margin-bottom:12px}
-.demo-badge{background:#c0392b;color:#fff;font-size:10px;padding:2px 8px;border-radius:3px;letter-spacing:1px;margin-left:8px;vertical-align:middle}
-.form-card{background:#fff;border-radius:8px;padding:16px;margin-bottom:16px;box-shadow:0 1px 6px rgba(0,0,0,.15)}
+body{font-family:'Inter','Noto Sans',Arial,sans-serif;background:#f1f5f9;min-height:100vh;padding:0}
+.form-wrap{max-width:900px;margin:0 auto}
+h2{font-size:11px;font-weight:700;color:#94a3b8;margin-bottom:18px;text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:8px}.h2-line{flex:1;height:1px;background:#e2e8f0}
+.demo-badge{background:rgba(220,38,38,.12);color:#dc2626;border:1px solid rgba(220,38,38,.25);font-size:9px;padding:2px 9px;border-radius:20px;letter-spacing:1.2px;margin-left:8px;vertical-align:middle;font-weight:700}
+.form-card{background:#fff;border-radius:16px;padding:28px 28px 24px;margin-bottom:20px;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(0,0,0,.05),0 8px 24px rgba(0,0,0,.06)}
 .photo-row{display:flex;gap:14px;margin-bottom:12px}
 .photo-col{flex-shrink:0}
 .fields-col{flex:1}
 .fl{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#aaa;margin-bottom:4px}
-.upbox{width:80px;height:96px;border:2px dashed #ccc;border-radius:5px;position:relative;overflow:hidden;cursor:pointer;background:#fafafa;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.upbox:hover{border-color:#E05A29}
+.upbox{width:82px;height:98px;border:2px dashed #cbd5e1;border-radius:10px;position:relative;overflow:hidden;cursor:pointer;background:#f8fafc;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .15s,background .15s}
+.upbox:hover{border-color:#E05A29;background:#fff7f5}
 .upimg{width:100%;height:100%;object-fit:cover;display:none;position:absolute;inset:0}
 #uphint{font-size:9px;color:#bbb;text-align:center;line-height:1.5;z-index:1}
 .upbox input{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:2}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
 .fg{display:flex;flex-direction:column;gap:3px}
 .span2{grid-column:span 2}
-.fg label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#aaa}
-.fg input,.fg select{padding:6px 8px;border:1px solid #ddd;border-radius:5px;font-size:12px;font-family:inherit;outline:none}
-.fg input:focus,.fg select:focus{border-color:#E05A29}
-.genbtn{background:#E05A29;color:#fff;border:none;padding:10px 26px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;margin-top:12px}
-.genbtn:hover{background:#c44d20}
+.fg label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#64748b}
+.fg input,.fg select{padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:12.5px;font-family:inherit;outline:none;background:#f8fafc;transition:border-color .15s,box-shadow .15s}
+.fg input:focus,.fg select:focus{border-color:#E05A29;background:#fff;box-shadow:0 0 0 3px rgba(224,90,41,.1)}
+.genbtn{background:#E05A29;color:#fff;border:none;padding:11px 28px;border-radius:10px;font-size:13.5px;font-weight:700;cursor:pointer;margin-top:16px;box-shadow:0 4px 14px rgba(224,90,41,.35);transition:all .18s;letter-spacing:.2px}
+.genbtn:hover{background:#c44d20;box-shadow:0 6px 20px rgba(224,90,41,.45);transform:translateY(-1px)}
 #warn{display:none;font-size:11px;color:#c0392b;margin-bottom:8px;font-weight:700}
 
 /* ============================
@@ -247,12 +247,13 @@ h2{font-size:16px;font-weight:700;color:#222;margin-bottom:12px}
    PRINT BUTTON
    ============================ */
 .printbtn{
-  background:#154360;color:#fff;border:none;
-  padding:10px 26px;border-radius:6px;
-  font-size:14px;font-weight:700;cursor:pointer;
-  margin-top:12px;margin-left:8px;display:none;
+  background:#0f172a;color:#e2e8f0;border:none;
+  padding:11px 24px;border-radius:10px;
+  font-size:13.5px;font-weight:700;cursor:pointer;
+  margin-top:16px;margin-left:10px;display:none;
+  box-shadow:0 4px 14px rgba(0,0,0,.2);transition:all .18s;
 }
-.printbtn:hover{background:#0e2d3f}
+.printbtn:hover{background:#1e293b;transform:translateY(-1px)}
 
 /* ============================
    PRINT / SAVE AS PDF
@@ -266,6 +267,7 @@ h2{font-size:16px;font-weight:700;color:#222;margin-bottom:12px}
   #adoc{
     display:block!important;
     border:none!important;
+    border-top:1px solid #1a1a2e!important;
     box-shadow:none!important;
     /* 85.6mm × 2 cards + 2 strips (≈4mm each) = ~179mm */
     width:179mm!important;
@@ -277,10 +279,64 @@ h2{font-size:16px;font-weight:700;color:#222;margin-bottom:12px}
   .row{page-break-inside:avoid;break-inside:avoid}
   .wm span{color:rgba(180,0,0,.07)!important}
 }
+/* ============================
+   SITE HEADER
+   ============================ */
+.navbar{background:#0f172a;height:56px;display:flex;align-items:center;padding:0 24px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 rgba(255,255,255,.05)}
+.nav-logo{display:flex;align-items:center;gap:10px;color:#f1f5f9;font-size:14px;font-weight:700;letter-spacing:.2px}
+.nav-dot{width:9px;height:9px;background:#E05A29;border-radius:50%;box-shadow:0 0 8px rgba(224,90,41,.6)}
+.nav-right{margin-left:auto;font-size:11px;color:#475569;background:#1e293b;padding:4px 12px;border-radius:20px;border:1px solid #334155}
+.site-header{background:linear-gradient(180deg,#0f172a 0%,#1e293b 100%);color:#fff;padding:52px 20px 44px;text-align:center;border-bottom:1px solid #1e293b}
+.site-header h1{font-size:34px;font-weight:800;margin-bottom:10px;color:#f1f5f9;letter-spacing:-.5px;line-height:1.2}
+.site-header h1 .hl{color:#E05A29}
+.site-header .sub{font-size:13.5px;color:#64748b;margin:0 auto;max-width:520px;line-height:1.7}
+.site-header .gov-line{font-size:11.5px;color:#334155;margin-top:10px;letter-spacing:.3px}
+.site-header .sbadge{display:inline-block;background:rgba(220,38,38,.12);color:#fca5a5;border:1px solid rgba(220,38,38,.25);font-size:9px;padding:3px 10px;border-radius:20px;letter-spacing:1.2px;margin-left:10px;vertical-align:middle;font-weight:700}
+
+/* ============================
+   PAGE CONTENT WRAPPER
+   ============================ */
+.page-content{max-width:900px;margin:0 auto;padding:32px 20px}
+
+/* ============================
+   DISCLAIMER BOX
+   ============================ */
+.disclaimer{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:14px 18px;margin-bottom:22px;display:flex;gap:12px;align-items:flex-start}
+.disc-icon{font-size:18px;line-height:1;flex-shrink:0;margin-top:2px}
+.disc-body{}
+.disc-title{font-size:12px;font-weight:700;color:#92650a;margin-bottom:4px;letter-spacing:.2px}
+.disclaimer p{font-size:11.5px;color:#78350f;line-height:1.75}
+.disclaimer strong{color:#451a03;font-weight:600}
+
+/* ============================
+   SITE FOOTER
+   ============================ */
+.site-footer{background:#0f172a;color:#475569;text-align:center;padding:28px 20px;font-size:12px;border-top:1px solid #1e293b}
+.site-footer .dev{color:#f1f5f9;font-weight:700;font-size:14px;margin-bottom:6px;letter-spacing:.2px}
+.site-footer .dev .heart{color:#E05A29}
+.site-footer .tagline{color:#334155;font-size:11.5px;margin-bottom:5px}
+.site-footer .policy{font-size:11px;color:#1e293b;margin-top:6px;background:#0a1120;display:inline-block;padding:4px 14px;border-radius:20px;border:1px solid #1e293b}
 </style>
 </head><body>
+<nav class="navbar no-print">
+  <div class="nav-logo"><div class="nav-dot"></div>Aadhaar Generator</div>
+  <div class="nav-right">&#128274; Demo Tool Only</div>
+</nav>
+<header class="site-header no-print">
+  <h1>Aadhaar Card <span class="hl">Generator</span> <span class="sbadge">SAMPLE ONLY</span></h1>
+  <p class="sub">Create realistic sample Aadhaar cards for educational &amp; testing purposes</p>
+  <p class="gov-line">Unique Identification Authority of India &mdash; Simulation &amp; Demo Tool</p>
+</header>
+<div class="page-content">
+<div class="disclaimer no-print">
+  <div class="disc-icon">&#9888;&#65039;</div>
+  <div class="disc-body">
+    <div class="disc-title">Disclaimer &amp; Privacy Notice</div>
+    <p>This tool is strictly for <strong>educational and testing purposes only</strong>. All generated cards are <strong>sample / dummy documents</strong> and are <strong>not valid or legally recognized</strong> government-issued Aadhaar cards. Do <strong>not</strong> use this tool for identity fraud, impersonation, or any illegal misuse. The developer holds no responsibility for any misuse.</p>
+  </div>
+</div>
 <div class="form-wrap">
-<h2>Aadhaar Card Generator <span class="demo-badge">SAMPLE ONLY</span></h2>
+<h2>Fill in Details <span class="h2-line"></span></h2>
 <div class="form-card">
   <div class="photo-row">
     <div class="photo-col">
@@ -315,9 +371,10 @@ h2{font-size:16px;font-weight:700;color:#222;margin-bottom:12px}
     <div class="fg"><label>Details as on</label><input id="detdate" value="14/03/2026"/></div>
   </div>
   <button class="genbtn" onclick="gen()">Generate Aadhaar &#9658;</button>
-  <button class="printbtn no-print" id="printbtn" onclick="window.print()">&#128424; Print / Save as PDF</button>
+  <button class="printbtn no-print" id="printbtn" onclick="window.print()">&#128424; Print</button>
 </div>
 </div>
+</div><!-- /page-content -->
 <p id="warn">&#9888; FOR DEMONSTRATION / TESTING PURPOSES ONLY &#8212; NOT A VALID GOVERNMENT DOCUMENT</p>
 <div id="adoc">
 <div class="wm"><span></span></div>
@@ -544,4 +601,9 @@ async function gen(){
   document.getElementById('adoc').scrollIntoView({behavior:'smooth'});
 }
 </script>
+<footer class="site-footer no-print">
+  <div class="dev"><span class="heart">&#10084;</span> Developed by Akhilesh Goswami</div>
+  <div class="tagline">Aadhaar Card Generator &mdash; Sample &amp; Demo Tool</div>
+  <div class="policy">&#128274;&nbsp; For educational and testing purposes only &mdash; Do not use for misuse or illegal activities</div>
+</footer>
 </body></html>
